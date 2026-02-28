@@ -4,9 +4,13 @@
   "version": "${version}",
 
   "name": "DMC TierSigns",
-  "description": "",
-  "authors": [],
-  "contact": {},
+  "description": "Client-side mod for marking forbidden signs on dmc-minecraft.net.",
+  "authors": ["sawiq_"],
+  "contact": {
+    "homepage": "https://modrinth.com/project/dmctiersigns",
+    "sources": "https://github.com/imsawiq/DMCTierSigns",
+    "issues": "https://github.com/imsawiq/DMCTierSigns/issues"
+  },
 
   "license": "All-Rights-Reserved",
   "icon": "assets/dmc_tiersigns/icon.png",
