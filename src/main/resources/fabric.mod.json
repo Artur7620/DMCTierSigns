@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "dmc_tiersigns",
+  "version": "${version}",
+
+  "name": "DMC TierSigns",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "All-Rights-Reserved",
+  "icon": "assets/dmc_tiersigns/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": ["org.sawiq.dmc_tiersigns.Dmc_tiersigns"],
+    "client": ["org.sawiq.dmc_tiersigns.client.DmcTierSignsClient"],
+    "modmenu": ["org.sawiq.dmc_tiersigns.client.ModMenuIntegration"]
+  },
+
+  "mixins": [
+    "dmc_tiersigns.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_compat_version}"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}
