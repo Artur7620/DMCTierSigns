@@ -1,37 +1,29 @@
 {
   "schemaVersion": 1,
   "id": "dmc_tiersigns",
-  "version": "${version}",
-
-  "name": "DMC TierSigns",
-  "description": "Client-side mod for marking forbidden signs on dmc-minecraft.net.",
-  "authors": ["sawiq_"],
-  "contact": {
-    "homepage": "https://modrinth.com/project/dmctiersigns",
-    "sources": "https://github.com/imsawiq/DMCTierSigns",
-    "issues": "https://github.com/imsawiq/DMCTierSigns/issues"
-  },
-
-  "license": "All-Rights-Reserved",
+  "version": "2.0.0",
+  "name": "TierSigns",
+  "description": "Визуальные метки тиров на табличках. Работает на любом сервере.",
+  "authors": [
+    "sawiq_",
+    "APTYP_CABEJIEB",
+    "Dava_Wasab"
+  ],
+  "contact": {},
+  "license": "CC0-1.0",
   "icon": "assets/dmc_tiersigns/icon.png",
-
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
-    "main": ["org.sawiq.dmc_tiersigns.Dmc_tiersigns"],
-    "client": ["org.sawiq.dmc_tiersigns.client.DmcTierSignsClient"],
+    "main":    ["org.sawiq.dmc_tiersigns.Dmc_tiersigns"],
+    "client":  ["org.sawiq.dmc_tiersigns.client.DmcTierSignsClient"],
     "modmenu": ["org.sawiq.dmc_tiersigns.client.ModMenuIntegration"]
   },
-
-  "mixins": [
-    "dmc_tiersigns.mixins.json"
-  ],
-
+  "mixins": ["dmc_tiersigns.mixins.json"],
   "depends": {
-    "fabricloader": ">=${loader_version}",
-    "fabric-api": "*",
-    "minecraft": "${minecraft_compat_version}"
+    "fabricloader": ">=0.18.4",
+    "minecraft":    ">=1.21.6",
+    "java":         ">=21",
+    "fabric-api":   "*"
   },
-  "suggests": {
-    "modmenu": "*"
-  }
+  "suggests": { "modmenu": "*" }
 }

@@ -1,5 +1,6 @@
 package org.sawiq.dmc_tiersigns.client;
 
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
@@ -7,173 +8,133 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
+import java.util.function.IntFunction;
 
 public class TierConfigScreen extends Screen {
     private final Screen parent;
 
-    private ButtonWidget tier0Button;
-    private ButtonWidget tier1Button;
-    private ButtonWidget tier2Button;
-    private ButtonWidget tier3Button;
-
     public TierConfigScreen(Screen parent) {
-        super(Text.literal("Настройки DMC TierSigns"));
+        super(Text.literal("TierSigns"));
         this.parent = parent;
     }
 
     @Override
     protected void init() {
-        TierConfig config = TierConfigManager.get();
-        int centerX = this.width / 2;
-        int startY = this.height / 2 - 118;
-        int row = 22;
+        TierConfig cfg = TierConfigManager.get();
+        int cx = this.width / 2, W = 220, row = 22;
+        int y  = this.height / 2 - 145;
 
-        this.tier0Button = addDrawableChild(ButtonWidget.builder(toggleText(0, config.showTier0), button -> {
-            config.showTier0 = !config.showTier0;
-            button.setMessage(toggleText(0, config.showTier0));
-        }).dimensions(centerX - 110, startY, 220, 20).build());
+        // Тиры
+        for (int t = 0; t < 4; t++) {
+            final int tier = t;
+            addDrawableChild(ButtonWidget.builder(
+                tierText(tier, cfg.isTierVisible(tier)), btn -> {
+                    boolean now = !cfg.isTierVisible(tier);
+                    switch (tier) {
+                        case 0 -> cfg.showTier0 = now;
+                        case 1 -> cfg.showTier1 = now;
+                        case 2 -> cfg.showTier2 = now;
+                        case 3 -> cfg.showTier3 = now;
+                    }
+                    btn.setMessage(tierText(tier, now));
+                }).dimensions(cx - W/2, y + tier * row, W, 20).build());
+        }
 
-        this.tier1Button = addDrawableChild(ButtonWidget.builder(toggleText(1, config.showTier1), button -> {
-            config.showTier1 = !config.showTier1;
-            button.setMessage(toggleText(1, config.showTier1));
-        }).dimensions(centerX - 110, startY + row, 220, 20).build());
+        int wy = y + 4 * row + 6;
 
-        this.tier2Button = addDrawableChild(ButtonWidget.builder(toggleText(2, config.showTier2), button -> {
-            config.showTier2 = !config.showTier2;
-            button.setMessage(toggleText(2, config.showTier2));
-        }).dimensions(centerX - 110, startY + row * 2, 220, 20).build());
+        addDrawableChild(ButtonWidget.builder(onOff("Сквозь стены", cfg.wallhack), btn -> {
+            cfg.wallhack = !cfg.wallhack;
+            btn.setMessage(onOff("Сквозь стены", cfg.wallhack));
+        }).dimensions(cx - W/2, wy, W, 20).build());
 
-        this.tier3Button = addDrawableChild(ButtonWidget.builder(toggleText(3, config.showTier3), button -> {
-            config.showTier3 = !config.showTier3;
-            button.setMessage(toggleText(3, config.showTier3));
-        }).dimensions(centerX - 110, startY + row * 3, 220, 20).build());
+        addDrawableChild(ButtonWidget.builder(onOff("Контур", cfg.outlineEnabled), btn -> {
+            cfg.outlineEnabled = !cfg.outlineEnabled;
+            btn.setMessage(onOff("Контур", cfg.outlineEnabled));
+        }).dimensions(cx - W/2, wy + row, W, 20).build());
 
-        addDrawableChild(new RadiusSlider(centerX - 110, startY + row * 4, 220, 20, config));
-        addDrawableChild(new IntConfigSlider(
-                centerX - 110,
-                startY + row * 5,
-                220,
-                20,
-                10,
-                140,
-                () -> config.hudEspHeightPercent,
-                value -> config.hudEspHeightPercent = value,
-                value -> "Высота ESP: " + value + "%"
-        ));
-        addDrawableChild(new IntConfigSlider(
-                centerX - 110,
-                startY + row * 6,
-                220,
-                20,
-                10,
-                120,
-                () -> config.hudEspWidthPercent,
-                value -> config.hudEspWidthPercent = value,
-                value -> "Ширина ESP: " + value + "%"
-        ));
-        addDrawableChild(new IntConfigSlider(
-                centerX - 110,
-                startY + row * 7,
-                220,
-                20,
-                -40,
-                40,
-                () -> config.hudEspYOffset,
-                value -> config.hudEspYOffset = value,
-                value -> "Смещение ESP по Y: " + value
-        ));
-        addDrawableChild(new IntConfigSlider(
-                centerX - 110,
-                startY + row * 8,
-                220,
-                20,
-                10,
-                100,
-                () -> config.iconOpacityPercent,
-                value -> config.iconOpacityPercent = value,
-                value -> "Прозрачность иконки тира: " + value + "%"
-        ));
-        addDrawableChild(ButtonWidget.builder(Text.literal("Готово"), button -> close()).dimensions(centerX - 110, startY + row * 9 + 6, 220, 20).build());
+        addDrawableChild(ButtonWidget.builder(onOff("Звук", cfg.soundEnabled), btn -> {
+            cfg.soundEnabled = !cfg.soundEnabled;
+            btn.setMessage(onOff("Звук", cfg.soundEnabled));
+        }).dimensions(cx - W/2, wy + row*2, W, 20).build());
+
+        addDrawableChild(ButtonWidget.builder(onOff("Предупреждение у блоков", cfg.warnOnInteract), btn -> {
+            cfg.warnOnInteract = !cfg.warnOnInteract;
+            btn.setMessage(onOff("Предупреждение у блоков", cfg.warnOnInteract));
+        }).dimensions(cx - W/2, wy + row*3, W, 20).build());
+
+        // Слайдеры
+        addDrawableChild(new CfgSlider(cx-W/2, wy+row*4, W, 8, 96,
+            cfg.scanRadius,
+            v -> cfg.scanRadius = v,
+            v -> "Радиус: " + v + " блоков"));
+
+        addDrawableChild(new CfgSlider(cx-W/2, wy+row*5, W, 10, 100,
+            cfg.iconOpacityPercent,
+            v -> cfg.iconOpacityPercent = v,
+            v -> "Прозрачность иконки: " + v + "%"));
+
+        addDrawableChild(new CfgSlider(cx-W/2, wy+row*6, W, 0, 100,
+            cfg.outlineOpacity,
+            v -> cfg.outlineOpacity = v,
+            v -> "Прозрачность контура: " + v + "%"));
+
+        addDrawableChild(new CfgSlider(cx-W/2, wy+row*7, W, 1, 20,
+            Math.round(cfg.toastDistance),
+            v -> cfg.toastDistance = v,
+            v -> "Подсказка с " + v + " блоков"));
+
+        addDrawableChild(new CfgSlider(cx-W/2, wy+row*8, W, -20, 20,
+            Math.round(cfg.iconHeightOffset * 10),
+            v -> cfg.iconHeightOffset = v / 10F,
+            v -> "Высота метки: " + String.format("%.1f", v / 10F)));
+
+        addDrawableChild(ButtonWidget.builder(Text.literal("Готово"), btn -> close())
+            .dimensions(cx - W/2, wy + row*9 + 4, W, 20).build());
+    }
+
+    @Override
+    public void render(DrawContext ctx, int mx, int my, float pt) {
+        ctx.fill(0, 0, width, height, 0xC0101010);
+        ctx.drawCenteredTextWithShadow(textRenderer, "TierSigns", width/2, 8, 0xFFFFFF);
+        ctx.drawCenteredTextWithShadow(textRenderer, "§8[H] — скрыть/показать метки", width/2, 20, 0x888888);
+        ctx.drawCenteredTextWithShadow(textRenderer,
+            "sawiq_  |  APTYP_CABEJIEB  |  Dava_Wasab", width/2, height - 12, 0x555555);
+        super.render(ctx, mx, my, pt);
     }
 
     @Override
     public void close() {
         TierConfigManager.save();
-        if (this.client != null) {
-            this.client.setScreen(parent);
-        }
+        if (this.client != null) this.client.setScreen(parent);
     }
 
-    private Text toggleText(int tier, boolean enabled) {
-        return Text.literal("Показывать тир " + tier + ": " + (enabled ? "ВКЛ" : "ВЫКЛ"));
+    private Text tierText(int t, boolean on) {
+        return Text.literal("Tier " + t + ": " + (on ? "ВКЛ" : "ВЫКЛ"));
     }
 
-    private static class RadiusSlider extends SliderWidget {
-        private final TierConfig config;
-
-        private RadiusSlider(int x, int y, int width, int height, TierConfig config) {
-            super(x, y, width, height, Text.empty(), toSliderValue(config.scanRadius));
-            this.config = config;
-            updateMessage();
-        }
-
-        @Override
-        protected void updateMessage() {
-            this.setMessage(Text.literal("Радиус сканирования: " + this.config.scanRadius + " блоков"));
-        }
-
-        @Override
-        protected void applyValue() {
-            int radius = fromSliderValue(this.value);
-            this.config.scanRadius = radius;
-            updateMessage();
-        }
-
-        private static double toSliderValue(int radius) {
-            return (radius - 8) / 88.0;
-        }
-
-        private static int fromSliderValue(double value) {
-            return MathHelper.clamp((int) Math.round(8 + value * 88), 8, 96);
-        }
+    private Text onOff(String name, boolean on) {
+        return Text.literal(name + ": " + (on ? "ВКЛ" : "ВЫКЛ"));
     }
 
-    private static class IntConfigSlider extends SliderWidget {
-        private final int min;
-        private final int max;
-        private final IntSupplier getter;
+    private static class CfgSlider extends SliderWidget {
+        private final int min, max;
         private final IntConsumer setter;
-        private final java.util.function.IntFunction<String> text;
+        private final IntFunction<String> label;
 
-        private IntConfigSlider(int x, int y, int width, int height, int min, int max, IntSupplier getter, IntConsumer setter, java.util.function.IntFunction<String> text) {
-            super(x, y, width, height, Text.empty(), toSliderValue(getter.getAsInt(), min, max));
-            this.min = min;
-            this.max = max;
-            this.getter = getter;
-            this.setter = setter;
-            this.text = text;
-            updateMessage();
+        CfgSlider(int x, int y, int w, int min, int max, int initVal,
+                  IntConsumer setter, IntFunction<String> label) {
+            super(x, y, w, 20,
+                Text.literal(label.apply(initVal)),
+                (double)(initVal - min) / (max - min));
+            this.min = min; this.max = max;
+            this.setter = setter; this.label = label;
         }
 
-        @Override
-        protected void updateMessage() {
-            this.setMessage(Text.literal(text.apply(getter.getAsInt())));
+        private int val() {
+            return MathHelper.clamp((int) Math.round(min + value * (max - min)), min, max);
         }
 
-        @Override
-        protected void applyValue() {
-            int value = fromSliderValue(this.value, min, max);
-            setter.accept(value);
-            updateMessage();
-        }
-
-        private static double toSliderValue(int value, int min, int max) {
-            return (value - min) / (double) (max - min);
-        }
-
-        private static int fromSliderValue(double slider, int min, int max) {
-            return MathHelper.clamp((int) Math.round(min + slider * (max - min)), min, max);
-        }
+        @Override protected void updateMessage() { setMessage(Text.literal(label.apply(val()))); }
+        @Override protected void applyValue()    { setter.accept(val()); }
     }
 }

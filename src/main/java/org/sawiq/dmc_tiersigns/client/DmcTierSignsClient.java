@@ -6,6 +6,8 @@ public class DmcTierSignsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         TierConfigManager.load();
+        TierKeybinds.register();
+        InteractWarningHandler.register();
         TierSignHighlighter.init();
     }
 }
