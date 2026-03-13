@@ -11,8 +11,10 @@ An enhanced client-side Fabric mod for tracking tier signs. This is a fork of DM
 ---
 
 ## 📺 Видео демонстрация / Video Demo
-* [🎥 Смотреть показ 1 (Video 1)](media/показ.mkv)
-* [🎥 Смотреть показ 2 (Video 2)](media/показ2.mkv)
+
+https://github.com/Artur7620/DMCTierSigns/raw/master/media/показ.mkv
+
+https://github.com/Artur7620/DMCTierSigns/raw/master/media/показ2.mkv
 
 ---
 
