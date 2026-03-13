@@ -6,33 +6,24 @@
   <img src="media/3.png" width="30%" />
 </p>
 
-An enhanced client-side Fabric mod for tracking tier signs. This is a fork of DMCTierSigns, featuring completely overhauled visuals, better optimization, and universal server support.
+An enhanced client-side Fabric mod for tracking tier signs. This is a fork of DMCTierSigns with overhauled visuals and universal server support.
 
-> **📜 Note:** This version is standalone and works on **any** Minecraft server. It is no longer locked to DMC.
+---
+
+## 📺 Видео демонстрация / Video Demo
+* [🎥 Смотреть показ 1 (Video 1)](media/показ.mkv)
+* [🎥 Смотреть показ 2 (Video 2)](media/показ2.mkv)
 
 ---
 
 ## ✨ Особенности / Features
-
-- **Unique Icons** — Свои иконки для каждого тира вместо одной перекрашенной.
-- **Smooth Animations** — Плавное появление и исчезновение иконок.
-- **Adaptive Opacity** — Иконка тускнеет, когда вы подходите вплотную.
-- **Tier HUD Tooltips** — Подсказка "TIER 0/1/2/3" внизу экрана при приближении.
-- **Universal Support** — Работает на любом сервере, где есть тиры.
-- **Cleaner Visuals** — Убраны лишние спецэффекты и текст над иконками.
-
-## 📦 Зависимости / Dependencies
-
-- **Fabric API** — Required
-- **Mod Menu** — Optional (for config)
-
----
+- **Unique Icons** — Свои иконки для каждого тира.
+- **Smooth Animations** — Плавное появление и исчезновение.
+- **Adaptive Opacity** — Иконка тускнеет вплотную.
+- **Universal Support** — Работает на любом сервере.
 
 ## ❤️ Credits & Thanks
-
-This fork was developed with the amazing support of:
-* **Dava Wasabi** ([@DavasMueslis](https://t.me/DavasMueslis)) — за огромную помощь и вклад в развитие.
-* *Original Mod by imsawiq*
+Огромное спасибо **Dava Wasabi** ([@DavasMueslis](https://t.me/DavasMueslis)) за ценные замечания и предоставленные текстуры! 
 
 ---
-Нашли баг или есть предложение? Откройте issue на GitHub!
+Found a bug? Open an issue on GitHub!
