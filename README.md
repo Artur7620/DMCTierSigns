@@ -10,13 +10,12 @@ An enhanced client-side Fabric mod for tracking tier signs.
 
 ---
 
-## 📺 Видео демонстрация / Video Demo
+## 📺 Демонстрация / Demo
 
-### Показ 1
-https://github.com/Artur7620/DMCTierSigns/raw/master/media/показ.mp4
-
-### Показ 2
-https://github.com/Artur7620/DMCTierSigns/raw/master/media/показ2.mp4
+<p align="center">
+  <img src="media/показ.gif" width="45%" />
+  <img src="media/показ2.gif" width="45%" />
+</p>
 
 ---
 
@@ -27,7 +26,7 @@ https://github.com/Artur7620/DMCTierSigns/raw/master/media/показ2.mp4
 - **Universal Support** — Работает на любом сервере.
 
 ## ❤️ Credits & Thanks
-Огромное спасибо **Dava Wasabi** ([@DavasMueslis](https://t.me/DavasMueslis)) за ценные замечания и предоставленные текстуры! 
+Огромное спасибо **Dava Wasab** ([@DavasMueslis](https://t.me/DavasMueslis)) за ценные замечания и предоставленные текстуры! 
 
 ---
 Found a bug? Open an issue on GitHub!
