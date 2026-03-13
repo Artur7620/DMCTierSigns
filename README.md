@@ -6,15 +6,17 @@
   <img src="media/3.png" width="30%" />
 </p>
 
-An enhanced client-side Fabric mod for tracking tier signs. This is a fork of DMCTierSigns with overhauled visuals and universal server support.
+An enhanced client-side Fabric mod for tracking tier signs.
 
 ---
 
 ## 📺 Видео демонстрация / Video Demo
 
-https://github.com/Artur7620/DMCTierSigns/raw/master/media/показ.mkv
+### Показ 1
+https://github.com/Artur7620/DMCTierSigns/raw/master/media/показ.mp4
 
-https://github.com/Artur7620/DMCTierSigns/raw/master/media/показ2.mkv
+### Показ 2
+https://github.com/Artur7620/DMCTierSigns/raw/master/media/показ2.mp4
 
 ---
 
